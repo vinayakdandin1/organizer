@@ -1,0 +1,10 @@
+<ul>
+    {{#unless loggedInUser}}
+        <li> <a href="/signup">Signup</a> </li>
+        <li> <a href="/signin">Signin</a> </li>   
+    {{/unless}}
+
+    {{#if loggedInUser}}
+        <li> <a href="/logout">Logout</a> </li>
+    {{/if}}
+</ul>

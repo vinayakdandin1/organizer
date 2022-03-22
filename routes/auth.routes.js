@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 
 /*Signup*/
 router.get("/signup", (req, res) => {
-  res.render("signup");
+  res.render("auth/signup");
 });
 
 router.post('/signup', async (req, res) => {
@@ -15,11 +15,11 @@ router.post('/signup', async (req, res) => {
       email: normalizedEmail,
     });
     if (userExists) {
-      res.render("signup", { msg: "Hey username already exists" });
+      res.render("auth/signup", { msg: "Hey username already exists" });
       return;
     }
     if(req.body.password !== req.body.repeatPassword) {
-      res.render("signup", {msg: "Password and repeat password must match"})
+      res.render("auth/signup", {msg: "Password and repeat password must match"})
       return;
     }
     const salt = await bcrypt.genSalt(12);
@@ -52,7 +52,7 @@ router.post("/signin", async (req, res) => {
       res.render("auth/signin", {msg: "incorrect password"} )
       return
     }
-    req.session.currentUser = user;
+    req.session.user = user;
     res.render("profile");
     return
   } catch (err) {
