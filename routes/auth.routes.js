@@ -53,7 +53,7 @@ router.post("/signin", async (req, res) => {
       return
     }
     req.session.user = user;
-    res.render("profile");
+    res.redirect("/profile");
     return
   } catch (err) {
     res.render("auth/signin", { msg: "Wrong username or password" });

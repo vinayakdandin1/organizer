@@ -4,14 +4,9 @@ const router = require("express").Router();
 const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
-router.use(isLoggedIn);
-
-router.get("/profile", (req, res) => {
+router.get("/profile", isLoggedIn, (req, res) => {
     const loggedInUser = req.session.user
-    console.log(loggedInUser);
     res.render("profile", {loggedInUser})
 })
-
-
 
 module.exports = router;
