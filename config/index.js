@@ -18,6 +18,8 @@ const favicon = require("serve-favicon");
 const path = require("path");
 
 const session = require("express-session");
+const MongoStore = require('connect-mongo');
+const MONGO_URI = require("../utils/consts");
 
 // Middleware configuration
 module.exports = (app) => {
@@ -38,7 +40,10 @@ module.exports = (app) => {
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
       maxAge: 100 * 60 * 60 * 24,
-    }
+    },
+    store: MongoStore.create({
+      mongoUrl: MONGO_URI
+    })
   }))
 
   // Normalizes the path to the views folder

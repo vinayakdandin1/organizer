@@ -31,13 +31,13 @@ router.post('/signup', async (req, res) => {
     await newUser.save();
     res.redirect("/signin");
   } catch (err) {
-    res.render("signup", { msg: "Some kind of error happened" });
+    res.render("auth/signup", { msg: "Some kind of error happened" });
   }
 
 })
 
 router.get("/signin", (req, res) => {
-  res.render("signin")
+  res.render("auth/signin")
 })
 
 router.post("/signin", async (req, res) => {
@@ -49,15 +49,26 @@ router.post("/signin", async (req, res) => {
 
     const passwordCorrect = await bcrypt.compare(req.body.password, hashFromDb);
     if (!passwordCorrect) {
-      res.render("signin", {msg: "incorrect password"} )
+      res.render("auth/signin", {msg: "incorrect password"} )
       return
     }
     req.session.currentUser = user;
     res.render("profile");
     return
   } catch (err) {
-    res.render("signin", { msg: "Wrong username or password" });
+    res.render("auth/signin", { msg: "Wrong username or password" });
   }
+})
+
+router.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if(err) {
+      return res
+        .status(500)
+        .render("auth/logout", {msg: err.message})
+    }
+    res.redirect("/")
+  })
 })
 
 module.exports = router;
